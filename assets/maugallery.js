@@ -59,10 +59,10 @@
 
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
     $(".gallery").on("click", ".mg-prev", () =>
-      $.fn.mauGallery.methods.prevImage(options.lightboxId)
+      $.fn.mauGallery.methods.prevImage()
     );
     $(".gallery").on("click", ".mg-next", () =>
-      $.fn.mauGallery.methods.nextImage(options.lightboxId)
+      $.fn.mauGallery.methods.nextImage()
     );
   };
   $.fn.mauGallery.methods = {
@@ -120,104 +120,64 @@
       $(`#${lightboxId}`).modal("toggle");
     },
     prevImage() {
-      let activeImage = null;
-      $("img.gallery-item").each(function() {
-        if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
-          activeImage = $(this);
-        }
-      });
+      let activeImageSrc = $(".lightboxImage").attr("src");
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
       let imagesCollection = [];
-      if (activeTag === "all") {
-        $(".item-column").each(function() {
-          if ($(this).children("img").length) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
-      } else {
-        $(".item-column").each(function() {
-          if (
-            $(this)
-              .children("img")
-              .data("gallery-tag") === activeTag
-          ) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
-      }
-      let index = 0,
-        next = null;
-
-      $(imagesCollection).each(function(i) {
-        if ($(activeImage).attr("src") === $(this).attr("src")) {
-          index = i ;
+    
+      $(".item-column").each(function() {
+        let img = $(this).children("img");
+        if (!img.length) return;
+        if (activeTag === "all" || img.data("gallery-tag") === activeTag) {
+          imagesCollection.push(img);
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
+    
+      let currentIndex = imagesCollection.findIndex(img => img.attr("src") === activeImageSrc);
+      let prevIndex = (currentIndex - 1 + imagesCollection.length) % imagesCollection.length;
+    
+      $(".lightboxImage").attr("src", imagesCollection[prevIndex].attr("src"));
     },
+    
     nextImage() {
-      let activeImage = null;
-      $("img.gallery-item").each(function() {
-        if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
-          activeImage = $(this);
-        }
-      });
+      let activeImageSrc = $(".lightboxImage").attr("src");
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
       let imagesCollection = [];
-      
-      if (activeTag === "all") {
-        $(".item-column").each(function() {
-          if ($(this).children("img").length) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
-      } else {
-        $(".item-column").each(function() {
-          if (
-            $(this)
-              .children("img")
-              .data("gallery-tag") === activeTag
-          ) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
-      }
-      let index = 0,
-        next = null;
-
-      $(imagesCollection).each(function(i) {
-        if ($(activeImage).attr("src") === $(this).attr("src")) {
-          index = i;
+    
+      $(".item-column").each(function() {
+        let img = $(this).children("img");
+        if (!img.length) return;
+        if (activeTag === "all" || img.data("gallery-tag") === activeTag) {
+          imagesCollection.push(img);
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
+    
+      let currentIndex = imagesCollection.findIndex(img => img.attr("src") === activeImageSrc);
+      let nextIndex = (currentIndex + 1) % imagesCollection.length;
+    
+      $(".lightboxImage").attr("src", imagesCollection[nextIndex].attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
-      gallery.append(`<div class="modal fade" id="${
-        lightboxId ? lightboxId : "galleryLightbox"
-      }" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            ${
-                              navigation
-                                ? '<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;"></div>'
-                                : '<span style="display:none;" />'
-                            }
-                            <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
-                            ${
-                              navigation
-                                ? '<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;}"></div>'
-                                : '<span style="display:none;" />'
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>`);
+      gallery.append(`
+        <div class="modal fade" id="${lightboxId ? lightboxId : "galleryLightbox"}" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body position-relative text-center">
+                ${
+                  navigation
+                    ? `<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-50px;background:white;padding:12px;border-radius:30%;transform:translateY(-50%);font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:10;">&#8592;</div>`
+                    : '<span style="display:none;" />'
+                }
+                <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
+                ${
+                  navigation
+                    ? `<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-50px;background:white;padding:12px;border-radius:30%;transform:translateY(-50%);font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:10;">&#8594;</div>`
+                    : '<span style="display:none;" />'
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
     },
     showItemTags(gallery, position, tags) {
       var tagItems =
