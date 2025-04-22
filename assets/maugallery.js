@@ -59,12 +59,12 @@
 
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
     $(".gallery").on("click", ".mg-prev", () =>
-      $.fn.mauGallery.methods.prevImage()
-    );
-    $(".gallery").on("click", ".mg-next", () =>
-      $.fn.mauGallery.methods.nextImage()
-    );
-  };
+      $.fn.mauGallery.methods.prevImage(options.lightboxId)
+  );
+  $(".gallery").on("click", ".mg-next", () =>
+      $.fn.mauGallery.methods.nextImage(options.lightboxId)
+  );
+};
   $.fn.mauGallery.methods = {
     createRowWrapper(element) {
       if (
@@ -201,7 +201,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 
