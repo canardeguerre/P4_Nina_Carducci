@@ -35,4 +35,4 @@ Ce projet est dédié à la création du portfolio en ligne de Nina Carducci, ph
 
 ## Pour visiter le site 
 
-https://manarlam.github.io/P4_Nina_Carducci/
+https://manarlam.github.io/Portfolio_Nina_Carducci/
