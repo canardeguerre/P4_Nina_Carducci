@@ -1,5 +1,6 @@
 # Portfolio de Nina Carducci - Photographe
-Projet 4 OpenClassrooms
+
+[![My Skills](https://skillicons.dev/icons?i=html,css,js,bootstrap,jquery)](https://skillicons.dev)
 
 Ce projet est dédié à la création du portfolio en ligne de Nina Carducci, photographe installée à Bordeaux. L'objectif a été d'améliorer le site pour garantir une meilleure accessibilité, des performances accrues et un référencement naturel (SEO) optimisé.
 
