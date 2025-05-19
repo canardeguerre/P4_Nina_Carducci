@@ -4,6 +4,9 @@
 
 Ce projet est dédié à la création du portfolio en ligne de Nina Carducci, photographe installée à Bordeaux. L'objectif a été d'améliorer le site pour garantir une meilleure accessibilité, des performances accrues et un référencement naturel (SEO) optimisé.
 
+## Pour visiter le site 
+
+https://manarlam.github.io/Portfolio_Nina_Carducci/
 
 ## Fonctionnalités principales
 
@@ -32,8 +35,3 @@ Ce projet est dédié à la création du portfolio en ligne de Nina Carducci, ph
 - Bootstrap
 - jquery
 - Git
-
-
-## Pour visiter le site 
-
-https://manarlam.github.io/Portfolio_Nina_Carducci/
